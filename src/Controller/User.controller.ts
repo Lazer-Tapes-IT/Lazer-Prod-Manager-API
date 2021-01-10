@@ -53,7 +53,7 @@ export class UserController {
         return;
       }
 
-      res.status(401).send('user created');
+      res.status(201).send('user created');
 
   }
 }
