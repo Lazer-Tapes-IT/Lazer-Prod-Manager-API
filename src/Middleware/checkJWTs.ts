@@ -3,11 +3,11 @@ import * as jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-export const checkJwt = function(
+export const checkJwt = function (
   req: Request,
   res: Response,
   next: NextFunction
-):Promise<void>{
+): Promise<void> {
   const token = <string>req.headers['auth'];
   let jwtPayload;
 

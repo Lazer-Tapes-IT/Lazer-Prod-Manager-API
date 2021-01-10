@@ -1,5 +1,12 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Project } from "./Project.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
+import { Project } from './Project.entity';
 
 @Entity()
 export class Studio {
@@ -17,6 +24,6 @@ export class Studio {
   @UpdateDateColumn()
   edition_date: Date;
 
-  @OneToMany(()=>Project, (project)=>project.id)
+  @OneToMany(() => Project, (project) => project.id)
   projects: Project[];
 }

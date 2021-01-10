@@ -4,9 +4,9 @@ import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import { logger } from '../Config/Logger.config';
 import { Users } from '../Entities/Users.entity';
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 class AuthController {
   static login = async function (req: Request, res: Response): Promise<void> {
@@ -19,7 +19,7 @@ class AuthController {
     let user: Users;
 
     try {
-      user = await userRepository.findOneOrFail({ where: {username} });
+      user = await userRepository.findOneOrFail({ where: { username } });
     } catch (error) {
       logger.error(`${error} on AuthController`);
       res.status(401).send('User not found');

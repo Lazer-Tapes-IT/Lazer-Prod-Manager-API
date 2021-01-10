@@ -1,15 +1,15 @@
-import { validate } from "class-validator";
-import { Request, Response } from "express";
-import { getRepository } from "typeorm";
-import { Studio } from "../Entities/Studio.entity";
+import { validate } from 'class-validator';
+import { Request, Response } from 'express';
+import { getRepository } from 'typeorm';
+import { Studio } from '../Entities/Studio.entity';
 
 export class StudioController {
-  static listAll = async function(req: Request, res: Response):Promise<void> {
+  static listAll = async function (req: Request, res: Response): Promise<void> {
     const studioRepository = getRepository(Studio);
     let studios;
     try {
       studios = await studioRepository.find({
-        select:['id', 'name', 'creation_date', 'edition_date']
+        select: ['id', 'name', 'creation_date', 'edition_date']
       });
     } catch (error) {
       res.status(500).send();
@@ -17,29 +17,35 @@ export class StudioController {
     }
 
     res.status(200).send(studios);
-  }
+  };
 
-  static getOneById =  async function(req: Request, res: Response):Promise<void> {
-    const id =  req.params.id;
-    const studioRepository =  getRepository(Studio);
+  static getOneById = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const id = req.params.id;
+    const studioRepository = getRepository(Studio);
 
-    let studio =  new Studio();
+    let studio = new Studio();
     try {
       studio = await studioRepository.findOneOrFail(id);
     } catch (error) {
-      res.status(404).send("studio not found");
+      res.status(404).send('studio not found');
       return;
     }
 
     res.status(200).send(studio);
-  }
+  };
 
-  static saveStudio = async function(req: Request, res: Response):Promise<void> {
+  static saveStudio = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
     const { name } = req.body;
     const studio = new Studio();
     studio.name = name;
-    const errors = await validate(studio)
-    if(errors.length>0) {
+    const errors = await validate(studio);
+    if (errors.length > 0) {
       res.status(400).send(errors);
       return;
     }
@@ -52,17 +58,20 @@ export class StudioController {
       return;
     }
     res.status(201).send();
-  }
+  };
 
-  static deleteStudio = async function(req: Request, res: Response):Promise<void> {
+  static deleteStudio = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
     const id = req.params.id;
     const studioRepository = getRepository(Studio);
     try {
       await studioRepository.delete(id);
     } catch (error) {
-      res.status(404).send("Studio not found")
+      res.status(404).send('Studio not found');
       return;
     }
-    res.status(204).send("deleted");
-  }
+    res.status(204).send('deleted');
+  };
 }

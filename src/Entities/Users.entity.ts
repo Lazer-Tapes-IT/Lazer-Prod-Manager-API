@@ -13,13 +13,13 @@ export class Users {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   first_name: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   last_name: string;
-  
-  @Column({nullable: true})
+
+  @Column({ nullable: true })
   phone_number: number;
 
   @Column()
@@ -30,11 +30,11 @@ export class Users {
   @Length(7, 100)
   password: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   @IsDate()
   birth_date: Date;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   @IsEmail()
   mail: string;
 
