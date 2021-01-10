@@ -3,7 +3,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -19,7 +18,7 @@ export class Users {
 
   @Column({nullable: true})
   last_name: string;
-
+  
   @Column({nullable: true})
   phone_number: number;
 
