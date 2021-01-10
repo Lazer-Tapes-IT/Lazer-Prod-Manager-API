@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Studio } from "./Studio.entity";
 
 @Entity()
 export class Project {
@@ -22,4 +23,7 @@ export class Project {
 
   @Column()
   date_de_publication: Date;
+
+  @ManyToOne(()=>Studio, (studio)=>studio.projects)
+  studio: Studio;
 }

@@ -13,10 +13,10 @@ services:
     volumes:
       - postgresdata:/var/lib/postgres
 
-  #adminer:
-  # image: adminer
-  #restart: always
-  #ports:
-  # - 8080:8080
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 volumes:
   postgresdata:
