@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Studio } from './Studio.entity';
+import { Members } from './Members.entity';
 
 @Entity()
 export class Project {
@@ -26,4 +27,7 @@ export class Project {
 
   @ManyToOne(() => Studio, (studio) => studio.projects)
   studio: Studio;
+
+  @OneToMany(() => Members, (member) => member.projectId)
+  members: Members[]
 }

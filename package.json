@@ -10,6 +10,7 @@
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "pre-run": " npm run lint && mkdir -p logs",
     "watch": "tsc -w",
+    "build": "tsc",
     "start": "node ./build/index.js",
     "start:dev": "nodemon ./build/index.js"
   },

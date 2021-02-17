@@ -7,7 +7,7 @@ export class UserController {
   static listAll = async function (req: Request, res: Response): Promise<void> {
     const userRepository = getRepository(Users);
     const users = await userRepository.find({
-      select: ['id', 'first_name', 'last_name', 'username', 'role']
+      select: ['id', 'first_name', 'last_name', 'username']
     });
     res.status(200).send(users);
   };
@@ -17,7 +17,18 @@ export class UserController {
     res: Response
   ): Promise<void> {
     const id = req.params.id;
+    const userRepository = getRepository(Users);
+    let user;
+    try {
+      user = userRepository.findOneOrFail(id,{ 
+        select: ['id', 'username', 'last_name', 'first_name', 'mail', 'phone_number']
+      })
+    } catch (error) {
+      res.status(404).send()
+    }
+    res.status(200).send(user)
   };
+
   static createUser = async function (
     req: Request,
     res: Response
@@ -34,7 +45,6 @@ export class UserController {
     user.last_name = last_name;
     user.username = username;
     user.password = password;
-    user.role = role;
     user.mail = mail;
 
     const errors = await validate(user);
@@ -55,4 +65,29 @@ export class UserController {
 
     res.status(201).send('user created');
   };
+
+  static deleteUser = async function (req: Request, res: Response): Promise<void> {
+    let id = req.params.id;
+    let userRepository = getRepository(Users);
+    try {
+      userRepository.delete(id);
+      res.status(204).send("deleted")
+    } catch (error) {
+      res.status(500).send()
+      return;
+    }
+  }
+
+  static updateUser = async function (req: Request, res: Response) {
+    let id = req.params.id
+    let userRepository = getRepository(Users);
+    let user;
+    let newUser = new Users;
+    let { first_name, last_name  } = req.body;
+    try {
+      user = userRepository.findOneOrFail(id);
+    } catch (error) {
+      res.status(404).send()
+    }
+  }
 }

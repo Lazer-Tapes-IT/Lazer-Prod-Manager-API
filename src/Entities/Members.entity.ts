@@ -2,25 +2,24 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { Project } from './Project.entity';
-import { Users } from './Users.entity';
 
 @Entity()
-export class UserAs {
+export class Members {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Users, (user) => user.id)
-  @JoinColumn()
-  userId: string;
+  @Column()
+  username: string;
 
   @Column()
   role: string;
 
-  @OneToOne(() => Project, (project) => project.id)
+  @ManyToOne(() => Project, (project) => project.id)
   @JoinColumn()
   projectId: string;
 }
