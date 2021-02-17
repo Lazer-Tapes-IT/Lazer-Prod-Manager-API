@@ -7,6 +7,7 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 import { Project } from './Project.entity';
+import { Users } from './Users.entity';
 
 @Entity()
 export class Studio {
@@ -23,6 +24,9 @@ export class Studio {
   @Column()
   @UpdateDateColumn()
   edition_date: Date;
+
+  @OneToMany(()=>Users, (user) => user.id)
+  user: Users[]
 
   @OneToMany(() => Project, (project) => project.id)
   projects: Project[];

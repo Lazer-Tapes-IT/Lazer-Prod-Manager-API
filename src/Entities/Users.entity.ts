@@ -33,7 +33,6 @@ export class Users {
   password: string;
 
   @Column({ nullable: true })
-  @IsDate()
   birth_date: Date;
 
   @Column({ nullable: true })

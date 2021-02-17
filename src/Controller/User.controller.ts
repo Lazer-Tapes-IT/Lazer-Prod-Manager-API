@@ -33,9 +33,9 @@ export class UserController {
     req: Request,
     res: Response
   ): Promise<void> {
-    const { first_name, last_name, username, password, role, mail } = req.body;
+    const { first_name, last_name, username, password, mail } = req.body;
 
-    if (!(first_name && last_name && username && password && role && mail)) {
+    if (!(first_name && last_name && username && password && mail)) {
       res.status(401).send();
     }
 
@@ -46,7 +46,7 @@ export class UserController {
     user.username = username;
     user.password = password;
     user.mail = mail;
-
+    
     const errors = await validate(user);
     if (errors.length > 0) {
       res.status(400).send(errors);

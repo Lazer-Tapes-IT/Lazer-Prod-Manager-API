@@ -41,9 +41,10 @@ export class StudioController {
     req: Request,
     res: Response
   ): Promise<void> {
-    const { name } = req.body;
+    const { name, user } = req.body;
     const studio = new Studio();
     studio.name = name;
+    studio.user = user;
     const errors = await validate(studio);
     if (errors.length > 0) {
       res.status(400).send(errors);
