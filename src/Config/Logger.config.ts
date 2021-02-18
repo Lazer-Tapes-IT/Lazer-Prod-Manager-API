@@ -10,7 +10,9 @@ const appSettings = {
       winston.format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
       winston.format.printf(
         (info) =>
-          `${info.timestamp} ${info.level.toUpperCase()} ${os.hostname} ${process.env.NODE_ENV} NRCounter_API: ${info.message}`
+          `${info.timestamp} ${info.level.toUpperCase()} ${os.hostname} ${
+            process.env.NODE_ENV
+          } NRCounter_API: ${info.message}`
       )
     ),
     transports: [

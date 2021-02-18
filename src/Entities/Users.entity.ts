@@ -43,7 +43,7 @@ export class Users {
   last_updated;
 
   @OneToMany(() => Studio, (Studio) => Studio.owner)
-  studios: Studio[]
+  studios: Studio[];
 
   hashPassword(): void {
     this.password = bcrypt.hashSync(this.password, 8);

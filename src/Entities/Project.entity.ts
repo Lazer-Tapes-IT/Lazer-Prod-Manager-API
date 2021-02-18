@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 import { Studio } from './Studio.entity';
 import { Members } from './Members.entity';
 
@@ -17,17 +23,14 @@ export class Project {
   pitch: string;
 
   @Column()
-  checklist: string;
+  date_de_tournage: string;
 
   @Column()
-  date_de_tournage: Date;
+  date_de_publication: string;
 
-  @Column()
-  date_de_publication: Date;
-
-  @ManyToOne(() => Studio, (studio) => studio.projects)
+  @ManyToOne(() => Studio, (studio) => studio.id)
   studio: Studio;
 
   @OneToMany(() => Members, (member) => member.projectId)
-  members: Members[]
+  members: Members[];
 }

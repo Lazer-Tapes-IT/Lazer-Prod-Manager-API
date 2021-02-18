@@ -29,8 +29,8 @@ export class Studio {
   @UpdateDateColumn()
   edition_date: Date;
 
-  @ManyToOne(()=>Users, (user) => user.id)
-  owner: Users
+  @ManyToOne(() => Users, (user) => user.id)
+  owner: Users;
 
   @OneToMany(() => Project, (project) => project.id)
   projects: Project[];

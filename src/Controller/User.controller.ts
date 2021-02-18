@@ -21,13 +21,20 @@ export class UserController {
     const userRepository = getRepository(Users);
     let user;
     try {
-      user = userRepository.findOneOrFail(id,{ 
-        select: ['id', 'username', 'last_name', 'first_name', 'mail', 'phone_number']
-      })
+      user = userRepository.findOneOrFail(id, {
+        select: [
+          'id',
+          'username',
+          'last_name',
+          'first_name',
+          'mail',
+          'phone_number'
+        ]
+      });
     } catch (error) {
-      res.status(404).send()
+      res.status(404).send();
     }
-    res.status(200).send(user)
+    res.status(200).send(user);
   };
 
   static createUser = async function (
@@ -47,7 +54,7 @@ export class UserController {
     user.username = username;
     user.password = password;
     user.mail = mail;
-    
+
     const errors = await validate(user);
     if (errors.length > 0) {
       res.status(400).send(errors);
@@ -67,20 +74,23 @@ export class UserController {
     res.status(201).send('user created');
   };
 
-  static deleteUser = async function (req: Request, res: Response): Promise<void> {
+  static deleteUser = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
     let id = req.params.id;
     let userRepository = getRepository(Users);
     try {
       userRepository.delete(id);
-      res.status(204).send("deleted")
+      res.status(204).send('deleted');
     } catch (error) {
-      res.status(500).send()
+      res.status(500).send();
       return;
     }
-  }
+  };
 
   static updateUser = async function (req: Request, res: Response) {
-    let id = req.params.id
+    let id = req.params.id;
     let userRepository = getRepository(Users);
     let user;
     let newUser = new Users();
@@ -88,29 +98,29 @@ export class UserController {
     try {
       user = userRepository.findOneOrFail(id);
       newUser = user;
-      if(first_name) {
+      if (first_name) {
         newUser.first_name = first_name;
       }
-      if(last_name) {
+      if (last_name) {
         newUser.last_name = last_name;
       }
-      if(username) {
+      if (username) {
         newUser.username = username;
       }
-      if(phone_number) {
+      if (phone_number) {
         newUser.phone_number = phone_number;
       }
-      if(mail) {
-        newUser.mail = mail
+      if (mail) {
+        newUser.mail = mail;
       }
     } catch (error) {
-      res.status(404).send()
+      res.status(404).send();
     }
 
-    userRepository.update(id,newUser);
+    userRepository.update(id, newUser);
     res.status(201).send({
-      message: "user Updated",
+      message: 'user Updated',
       newUser
-    })
-  }
+    });
+  };
 }

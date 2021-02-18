@@ -28,7 +28,7 @@ export class StudioController {
     const id = req.params.id;
     const studioRepository = getRepository(Studio);
 
-    let studio ;
+    let studio;
     try {
       studio = await studioRepository.findOneOrFail(id);
     } catch (error) {
@@ -61,7 +61,7 @@ export class StudioController {
       res.status(500).send();
       return;
     }
-    res.status(201).send("created");
+    res.status(201).send('created');
   };
 
   static deleteStudio = async function (
@@ -79,22 +79,25 @@ export class StudioController {
     res.status(204).send('deleted');
   };
 
-  static updateStudio = async function (req: Request, res: Response): Promise<void> {
-    const id  =  req.params.id;
-    const {name, description} = req.body
+  static updateStudio = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const id = req.params.id;
+    const { name, description } = req.body;
     const studioRepository = getRepository(Studio);
-    let newStudio = new Studio(); 
-    try{
-      if(name) {
+    let newStudio = new Studio();
+    try {
+      if (name) {
         newStudio.name = name;
       }
-      if(description) {
+      if (description) {
         newStudio.description;
       }
-      studioRepository.update(id, newStudio)
-    }catch(error) {
-      res.status(404).send()
+      studioRepository.update(id, newStudio);
+    } catch (error) {
+      res.status(404).send();
     }
-    res.status(200).send("ressources updated")
-  }
+    res.status(200).send('ressources updated');
+  };
 }
