@@ -17,7 +17,7 @@ export class ProjectController {
           'date_de_tournage',
           'date_de_publication'
         ],
-        relations: ['studio', 'members']
+        relations: ['studio', 'Project']
       });
     } catch (error) {
       res.status(500).send();
@@ -27,6 +27,25 @@ export class ProjectController {
       projects
     });
   };
+
+  static getOneById = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const id = req.params.id;
+    const projectRepository = getRepository(Project);
+
+    let project = new Project();
+    try {
+      project = await projectRepository.findOneOrFail(id);
+    } catch (error) {
+      res.status(404).send('project not found');
+      return;
+    }
+
+    res.status(200).send(project);
+  };
+
   static saveProject = async function (
     req: Request,
     res: Response
