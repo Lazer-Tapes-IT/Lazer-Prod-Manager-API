@@ -25,17 +25,17 @@ export class MemberController {
     res: Response
   ): Promise<void> {
     const id = req.params.id;
-    const MemberRepository = getRepository(Members);
+    const memberRepository = getRepository(Members);
 
-    let Member = new Members();
+    let member = new Members();
     try {
-      Member = await MemberRepository.findOneOrFail(id);
+      member = await memberRepository.findOneOrFail(id);
     } catch (error) {
       res.status(404).send('Member not found');
       return;
     }
 
-    res.status(200).send(Member);
+    res.status(200).send(member);
   };
 
   static saveMember = async function (
@@ -53,9 +53,9 @@ export class MemberController {
       return;
     }
 
-    const MemberRepository = getRepository(Members);
+    const memberRepository = getRepository(Members);
     try {
-      await MemberRepository.save(member);
+      await memberRepository.save(member);
     } catch (error) {
       res.status(500).send();
       return;
@@ -68,13 +68,38 @@ export class MemberController {
     res: Response
   ): Promise<void> {
     const id = req.params.id;
-    const MemberRepository = getRepository(Members);
+    const memberRepository = getRepository(Members);
     try {
-      await MemberRepository.delete(id);
+      await memberRepository.delete(id);
     } catch (error) {
       res.status(404).send('Member not found');
       return;
     }
-    res.status(204).send('deleted');
+    res.status(202).send('deleted');
+  };
+
+  static updateMember = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const id = req.params.id;
+    const memberRepository = getRepository(Members);
+    const { username, projectId, role } = req.body;
+    let newMember = new Members();
+    if (username) {
+      newMember.username = username;
+    }
+    if (projectId) {
+      newMember.projectId = projectId;
+    }
+    if (role) {
+      newMember.role = role;
+    }
+
+    try {
+      memberRepository.update(id, newMember);
+    } catch (error) {
+      res.status(500).send(error);
+    }
   };
 }

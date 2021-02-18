@@ -17,7 +17,7 @@ export class ProjectController {
           'date_de_tournage',
           'date_de_publication'
         ],
-        relations: ['studio']
+        relations: ['studio', 'members']
       });
     } catch (error) {
       res.status(500).send();
@@ -58,7 +58,7 @@ export class ProjectController {
       res.status(500).send(error);
       return;
     }
-    res.status(201).send('studio created');
+    res.status(201).send('project created');
   };
   static uptdateProject = async function (
     req: Request,

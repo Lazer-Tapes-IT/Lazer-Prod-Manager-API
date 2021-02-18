@@ -6,5 +6,5 @@ routes.get('/', ProjectController.listAll);
 routes.post('/', ProjectController.saveProject);
 routes.delete('/:id', ProjectController.deleteProject);
 routes.patch('/:id', ProjectController.uptdateProject);
-
+routes.get('/:id', ProjectController.getOneById);
 export default routes;
