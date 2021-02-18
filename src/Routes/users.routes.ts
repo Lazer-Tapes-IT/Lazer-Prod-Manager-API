@@ -7,5 +7,6 @@ routes.get('/', UserController.listAll);
 routes.post('/', UserController.createUser);
 routes.get('/:id', UserController.getOneById);
 routes.patch('/:id', UserController.updateUser);
+routes.delete('/:id', UserController.deleteUser);
 
 export default routes;

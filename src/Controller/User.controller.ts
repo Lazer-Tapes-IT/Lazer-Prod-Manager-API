@@ -7,7 +7,8 @@ export class UserController {
   static listAll = async function (req: Request, res: Response): Promise<void> {
     const userRepository = getRepository(Users);
     const users = await userRepository.find({
-      select: ['id', 'first_name', 'last_name', 'username']
+      select: ['id', 'first_name', 'last_name', 'username'],
+      relations: ['studios']
     });
     res.status(200).send(users);
   };

@@ -37,7 +37,8 @@ class AuthController {
     );
 
     res.send({
-      token
+      token,
+      userId: user.id
     });
   };
 

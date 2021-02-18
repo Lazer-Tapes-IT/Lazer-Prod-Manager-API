@@ -19,6 +19,9 @@ export class Studio {
   name: string;
 
   @Column()
+  description: string;
+
+  @Column()
   @CreateDateColumn()
   creation_date: Date;
 
