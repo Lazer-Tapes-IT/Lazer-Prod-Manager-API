@@ -17,9 +17,6 @@ export class ProjectController {
         }
         res.status(200).send(projects);
     };
-    static createProject = async function (req: Request, res: Response) {
-        
-    };
     static saveProject = async function (req: Request, res: Response) {
         
     };

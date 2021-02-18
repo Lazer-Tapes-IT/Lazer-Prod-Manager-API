@@ -33,9 +33,6 @@ export class Users {
   password: string;
 
   @Column({ nullable: true })
-  birth_date: Date;
-
-  @Column({ nullable: true })
   @IsEmail()
   mail: string;
 

@@ -1,5 +1,5 @@
 import { validate } from 'class-validator';
-import { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { Users } from '../Entities/Users.entity';
 
@@ -82,12 +82,34 @@ export class UserController {
     let id = req.params.id
     let userRepository = getRepository(Users);
     let user;
-    let newUser = new Users;
-    let { first_name, last_name  } = req.body;
+    let newUser = new Users();
+    let { first_name, last_name, username, phone_number, mail } = req.body;
     try {
       user = userRepository.findOneOrFail(id);
+      newUser = user;
+      if(first_name) {
+        newUser.first_name = first_name;
+      }
+      if(last_name) {
+        newUser.last_name = last_name;
+      }
+      if(username) {
+        newUser.username = username;
+      }
+      if(phone_number) {
+        newUser.phone_number = phone_number;
+      }
+      if(mail) {
+        newUser.mail = mail
+      }
     } catch (error) {
       res.status(404).send()
     }
+
+    userRepository.update(id,newUser);
+    res.status(201).send({
+      message: "user Updated",
+      newUser
+    })
   }
 }

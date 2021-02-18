@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -25,8 +26,8 @@ export class Studio {
   @UpdateDateColumn()
   edition_date: Date;
 
-  @OneToMany(()=>Users, (user) => user.id)
-  user: Users[]
+  @ManyToOne(()=>Users, (user) => user.id)
+  owner: Users
 
   @OneToMany(() => Project, (project) => project.id)
   projects: Project[];

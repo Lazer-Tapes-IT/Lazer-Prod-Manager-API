@@ -9,7 +9,8 @@ export class StudioController {
     let studios;
     try {
       studios = await studioRepository.find({
-        select: ['id', 'name', 'creation_date', 'edition_date']
+        select: ['id', 'name', 'creation_date', 'edition_date'],
+        relations: ['owner', 'projects']
       });
     } catch (error) {
       res.status(500).send();
@@ -44,7 +45,7 @@ export class StudioController {
     const { name, user } = req.body;
     const studio = new Studio();
     studio.name = name;
-    studio.user = user;
+    studio.owner = user;
     const errors = await validate(studio);
     if (errors.length > 0) {
       res.status(400).send(errors);
