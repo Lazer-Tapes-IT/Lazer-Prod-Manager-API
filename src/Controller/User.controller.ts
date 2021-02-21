@@ -21,16 +21,10 @@ export class UserController {
     const userRepository = getRepository(Users);
     let user;
     try {
-      user = userRepository.findOneOrFail(id, {
-        select: [
-          'id',
-          'username',
-          'last_name',
-          'first_name',
-          'mail',
-          'phone_number'
-        ]
-      });
+      user = await userRepository.findOneOrFail(id,{
+        select:['id', 'username', 'last_name', 'first_name', 'mail'],
+        relations:['studios']
+      })
     } catch (error) {
       res.status(404).send();
     }
@@ -44,7 +38,7 @@ export class UserController {
     const { first_name, last_name, username, password, mail } = req.body;
 
     if (!(first_name && last_name && username && password && mail)) {
-      res.status(401).send();
+      res.status(400).send();
     }
 
     const user = new Users();
