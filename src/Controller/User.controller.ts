@@ -21,16 +21,10 @@ export class UserController {
     const userRepository = getRepository(Users);
     let user;
     try {
-      user = userRepository.findOneOrFail(id, {
-        select: [
-          'id',
-          'username',
-          'last_name',
-          'first_name',
-          'mail',
-          'phone_number'
-        ]
-      });
+      user = await userRepository.findOneOrFail(id,{
+        select:['id', 'username', 'last_name', 'first_name', 'mail'],
+        relations:['studios']
+      })
     } catch (error) {
       res.status(404).send();
     }
