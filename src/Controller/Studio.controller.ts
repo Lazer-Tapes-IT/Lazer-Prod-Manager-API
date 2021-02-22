@@ -1,8 +1,8 @@
 import { validate } from 'class-validator';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
+import { logger } from '../Config/Logger.config';
 import { Studio } from '../Entities/Studio.entity';
-import { Users } from '../Entities/Users.entity';
 
 export class StudioController {
   static listAll = async function (req: Request, res: Response): Promise<void> {
@@ -11,10 +11,11 @@ export class StudioController {
     try {
       studios = await studioRepository.find({
         select: ['id', 'name', 'creation_date', 'edition_date'],
-        relations: ['owner', 'projects']
+        //relations: ['owner', 'projects']
       });
     } catch (error) {
       res.status(500).send();
+      logger.error(error);
       return;
     }
 

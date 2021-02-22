@@ -14,4 +14,5 @@ ENV NODE_ENV=production
 COPY package*.json ./
 RUN npm install --production
 COPY --from=builder /usr/src/app/build ./build
+#RUN npm run migration:run
 CMD [ "npm", "start" ]

@@ -39,8 +39,9 @@ services:
       - TYPEORM_PASSWORD=salayna
       - TYPEORM_DATABASE=manager
       - TYPEORM_AUTO_SCHEMA_SYNC=manager
+      - TYPEORM_SYNCHRONIZE=false
       - TYPEORM_ENTITIES=build/**/*.entity.js
       - TYPEORM_SUBSCRIBERS=build/subscriber/**/*.js
-      - TYPEORM_MIGRATIONS=build/migration/**/*.migration.js
+      - TYPEORM_MIGRATIONS=build/Migration/**/*.migration.js
 volumes:
   dbdata:
