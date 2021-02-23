@@ -30,15 +30,8 @@ class AuthController {
       return;
     }
 
-    const token = jwt.sign(
-      { userId: user.id, username: user.username },
-      process.env.JWT_SECRET,
-      { expiresIn: '2h' }
-    );
-
     res.send({
-      token,
-      userId: user.id
+      user
     });
   };
 
