@@ -11,10 +11,10 @@ export class StudioController {
     try {
       studios = await studioRepository.find({
         select: ['id', 'name', 'creation_date', 'edition_date'],
-        //relations: ['owner', 'projects']
+        relations: ['owner']
       });
     } catch (error) {
-      res.status(500).send();
+      res.status(500).send(error);
       logger.error(error);
       return;
     }
@@ -40,6 +40,26 @@ export class StudioController {
     res.status(200).send(studio);
   };
 
+  static getOneByUserId = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const id = req.params.id;
+    const studioRepository = getRepository(Studio);
+
+    let studio;
+    try {
+      studio = await studioRepository.findOneOrFail({
+        where:[{owner:id}]
+      });
+    } catch (error) {
+      res.status(404).send('studio not found');
+      return;
+    }
+
+    res.status(200).send(studio);
+  };
+
   static saveStudio = async function (
     req: Request,
     res: Response
@@ -49,6 +69,7 @@ export class StudioController {
     studio.name = name;
     studio.owner = owner;
     studio.description = description;
+    let studioSaved;
     const errors = await validate(studio);
     if (errors.length > 0) {
       res.status(400).send(errors);
@@ -57,12 +78,15 @@ export class StudioController {
 
     const studioRepository = getRepository(Studio);
     try {
-      await studioRepository.save(studio);
+      studioSaved = await studioRepository.save(studio);
     } catch (error) {
       res.status(500).send();
       return;
     }
-    res.status(201).send('created');
+    res.status(201).send({
+      studio: studioSaved,
+      message: "Studio Created"
+    });
   };
 
   static deleteStudio = async function (

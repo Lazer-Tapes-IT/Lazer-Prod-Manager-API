@@ -48,7 +48,7 @@ export class UserController {
     user.username = username;
     user.password = password;
     user.mail = mail;
-
+    let userSaved;
     const errors = await validate(user);
     if (errors.length > 0) {
       res.status(400).send(errors);
@@ -59,13 +59,16 @@ export class UserController {
 
     const userRepository = getRepository(Users);
     try {
-      await userRepository.save(user);
+      userSaved =  await userRepository.save(user);
     } catch (error) {
       res.status(409).send('user name already in use');
       return;
     }
 
-    res.status(201).send('user created');
+    res.status(201).send({
+      user: userSaved,
+      message: "User created"
+    });
   };
 
   static deleteUser = async function (

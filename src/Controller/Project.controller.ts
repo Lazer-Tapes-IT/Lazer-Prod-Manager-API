@@ -17,7 +17,7 @@ export class ProjectController {
           'date_de_tournage',
           'date_de_publication'
         ],
-        relations: ['studio', 'Project']
+        relations:['studio','members']
       });
     } catch (error) {
       res.status(500).send();
@@ -46,6 +46,26 @@ export class ProjectController {
     res.status(200).send(project);
   };
 
+  static getOneByUserId = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const id = req.params.id;
+    const studioRepository = getRepository(Project);
+
+    let studio;
+    try {
+      studio = await studioRepository.findOneOrFail({
+        where:[{studio:id}]
+      });
+    } catch (error) {
+      res.status(404).send('studio not found');
+      return;
+    }
+
+    res.status(200).send(studio);
+  };
+
   static saveProject = async function (
     req: Request,
     res: Response
@@ -67,17 +87,21 @@ export class ProjectController {
     project.date_de_publication = date_de_publication;
     project.studio = studio;
 
+    let projectSaved;
     const dataError = await validate(project);
     if (dataError.length > 0) {
       res.status(400).send(dataError);
     }
     try {
-      await projectRepository.save(project);
+      projectSaved = await  projectRepository.save(project);
     } catch (error) {
       res.status(500).send(error);
       return;
     }
-    res.status(201).send('project created');
+    res.status(201).send({
+      project: projectSaved,
+      user: "Project created"
+    })
   };
   static uptdateProject = async function (
     req: Request,

@@ -7,4 +7,5 @@ routes.post('/', ProjectController.saveProject);
 routes.delete('/:id', ProjectController.deleteProject);
 routes.patch('/:id', ProjectController.uptdateProject);
 routes.get('/:id', ProjectController.getOneById);
+routes.get('/studio/:id', ProjectController.getOneByUserId);
 export default routes;
