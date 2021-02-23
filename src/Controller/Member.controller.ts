@@ -45,9 +45,9 @@ export class MemberController {
     const id = req.params.id;
     const memberRepository = getRepository(Members);
 
-    let member = new Members();
+    let members;
     try {
-      member = await memberRepository.findOneOrFail({
+      members = await memberRepository.find({
         where:[{projectId: id}]
       });
     } catch (error) {
@@ -55,7 +55,7 @@ export class MemberController {
       return;
     }
 
-    res.status(200).send(member);
+    res.status(200).send(members);
   };
 
   static saveMember = async function (

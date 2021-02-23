@@ -47,9 +47,9 @@ export class StudioController {
     const id = req.params.id;
     const studioRepository = getRepository(Studio);
 
-    let studio;
+    let studios;
     try {
-      studio = await studioRepository.findOneOrFail({
+      studios = await studioRepository.find({
         where:[{owner:id}]
       });
     } catch (error) {
@@ -57,7 +57,7 @@ export class StudioController {
       return;
     }
 
-    res.status(200).send(studio);
+    res.status(200).send(studios);
   };
 
   static saveStudio = async function (

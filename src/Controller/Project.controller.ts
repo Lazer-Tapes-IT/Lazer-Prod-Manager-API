@@ -53,9 +53,9 @@ export class ProjectController {
     const id = req.params.id;
     const studioRepository = getRepository(Project);
 
-    let studio;
+    let studios;
     try {
-      studio = await studioRepository.findOneOrFail({
+      studios = await studioRepository.find({
         where:[{studio:id}]
       });
     } catch (error) {
@@ -63,7 +63,7 @@ export class ProjectController {
       return;
     }
 
-    res.status(200).send(studio);
+    res.status(200).send(studios);
   };
 
   static saveProject = async function (
