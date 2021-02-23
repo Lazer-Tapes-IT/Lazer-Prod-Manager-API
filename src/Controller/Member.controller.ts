@@ -10,7 +10,7 @@ export class MemberController {
     try {
       members = await memberRepository.find({
         select: ['id', 'username', 'role'],
-        relations: ['project']
+        relations: ['projectId']
       });
     } catch (error) {
       res.status(500).send();
