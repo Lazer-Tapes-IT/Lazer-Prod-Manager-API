@@ -38,6 +38,26 @@ export class MemberController {
     res.status(200).send(member);
   };
 
+  static getOneByProjectId = async function (
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const id = req.params.id;
+    const memberRepository = getRepository(Members);
+
+    let member = new Members();
+    try {
+      member = await memberRepository.findOneOrFail({
+        where:[{projectId: id}]
+      });
+    } catch (error) {
+      res.status(404).send('Member not found');
+      return;
+    }
+
+    res.status(200).send(member);
+  };
+
   static saveMember = async function (
     req: Request,
     res: Response
