@@ -1,42 +1,66 @@
 import { getRepository, MigrationInterface, QueryRunner } from 'typeorm';
 import { logger } from '../Config/Logger.config';
+import { Members } from '../Entities/Members.entity';
+import { Project } from '../Entities/Project.entity';
+import { Studio } from '../Entities/Studio.entity';
 import { Users } from '../Entities/Users.entity';
 
 export class CreateFirstAdmin1609250229025 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    let users : Users[] = [];
-    let user1:Users = new Users(); 
-    let user2:Users = new Users();
-    let user3:Users = new Users();
-    user1.first_name = "Salayna";
-    user1.last_name = "DOUKOURE";
-    user1.mail = "mail@mail.com" ;
-    user1.password = "example1";
-    user1.username = "username1";
-    user1.hashPassword();
 
-    user2.first_name = "David";
-    user2.last_name = "Qui Gon ";
-    user2.mail = "mail2@mail.com" ;
-    user2.password = "example2";
-    user2.username = "username2";
-    user2.hashPassword();
+    let userRepository = getRepository(Users);
+    let projectRepository = getRepository(Project);
+    let studioRepository = getRepository(Studio);
+    let memberRepository = getRepository(Members);
 
-    user3.first_name = "Nicolas";
-    user3.last_name = "Tran";
-    user3.mail = "mail3@mail.com" ;
-    user3.password = "example3";
-    user3.username = "username3";
-    user3.hashPassword();
+    let user = new Users();
+    user.first_name = "User";
+    user.last_name = "Example";
+    user.mail = "mail@example.com";
+    user.password =  "password";
+    user.username = "testing";
+    user.phone_number = 336000;
+    user.hashPassword();
 
+    let savedUser, savedStudio, savedProject, savedMember;
+    try {
+      savedUser = await userRepository.save(user);
+    } catch (error) {
+      logger.error(error)
+    }
+
+    let studio = new Studio();
+    studio.name = "studio1";
+    studio.owner = savedUser.id;
+    studio.description = "yet another studio";
     
-    users.push(user1, user2, user3);
-    const userRepository = getRepository(Users);
+    try {
+      savedStudio = await studioRepository.save(studio)
+    } catch (error) {
+      logger.error(error);
+    }
+
+    let project = new Project();
+    project.name = "project example";
+    project.pitch = "testing it bitch";
+    project.type = "example";
+    project.studio = savedStudio.id;
+    project.date_de_tournage = "dating";
+    project.date_de_publication = "another date"; 
+    
+    try {
+      savedProject = await projectRepository.save(project);
+    } catch (error) {
+      logger.error(error);
+    }
+
+    let member = new Members();
+    member.username =  "actor1";
+    member.projectId = savedProject.id;
+    member.role = "actor";
 
     try {
-      users.forEach(user => {
-        userRepository.save(user)
-      });
+      let savedMember = await memberRepository.save(member);
     } catch (error) {
       logger.error(error)
     }
